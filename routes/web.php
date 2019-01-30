@@ -19,3 +19,10 @@ $router->post('/register', 'AuthController@register');
 $router->post('/login', 'AuthController@login');
 $router->get('/users', 'UserController@showAll');
 $router->get('/user/{id}', 'UserController@show');
+
+// checklists
+$router->get('/checklists', 'ChecklistController@showAll');
+$router->get('/checklists/{id}', 'ChecklistController@show');
+$router->post('/checklists', 'ChecklistController@create');
+$router->patch('/checklists/{id}', 'ChecklistController@update');
+$router->delete('/checklists/{id}', 'ChecklistController@delete');

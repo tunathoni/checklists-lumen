@@ -65,6 +65,7 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'json-api.enforce-media-type' => RealPage\JsonApi\Middleware\EnforceMediaType::class
 ]);
 
 /*
@@ -81,6 +82,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(RealPage\JsonApi\Lumen\ServiceProvider::class);
 if ($app->environment() !== 'production') {
     $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 }
