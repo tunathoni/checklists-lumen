@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Checklists;
+use App\ChecklistTemplate;
 
-class ChecklistController extends Controller
+class ChecklistTemplateController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->type = 'checklists';
     }
 
     public function showAll()
     {
-        $checklists = Checklists::all();
+        $checklists = ChecklistTemplate::all();
 
         if ($checklists) {
             return response()->json([
@@ -34,7 +33,7 @@ class ChecklistController extends Controller
 
     public function show($id)
     {
-        $checklists = Checklists::find($id);
+        $checklists = ChecklistTemplate::find($id);
 
         if ($checklists) {
             return response()->json([
@@ -55,17 +54,12 @@ class ChecklistController extends Controller
     {
         
         $allData = $request->input('data');
-        $allData = $allData['attributes'];
-        $input = Checklists::create($allData);
+        $input = ChecklistTemplate::create($allData);
 
         if ($input) {
             return response()->json([
-                'type' => $this->type,
                 'id' => $input->id,
-                'attributes' => $input,
-                'links' => [
-                    'self' => ''
-                ]
+                'attributes' => $input
             ], 201);
         } else {
             return response()->json([
@@ -79,24 +73,17 @@ class ChecklistController extends Controller
     public function update(Request $request, $id)
     {
         $input = $request->input('data');
-        $checklists = Checklists::find($id)->first();
-        $checklists->object_domain = $input['attributes']['object_domain'];
-        $checklists->object_id = $input['attributes']['object_id'];
-        $checklists->description = $input['attributes']['description'];
-        $checklists->is_completed = $input['attributes']['is_completed'];
-        $checklists->completed_at = $input['attributes']['completed_at'];
-        $checklists->items = $input['attributes']['items'];
+        $checklists = ChecklistTemplate::find($id)->first();
+        $checklists->name = $input['name'];
+        $checklists->checklist = $input['checklist'];
+        $checklists->items = $input['items'];
 
         $proses = $checklists->save();
 
         if ($proses) {
             return response()->json([
-                'type' => $this->type,
                 'id' => $checklists->id,
-                'attributes' => $input['attributes'],
-                'links' => [
-                    'self' => ''
-                ]
+                'attributes' => $input
             ], 201);
         } else {
             return response()->json([
@@ -109,7 +96,7 @@ class ChecklistController extends Controller
 
     public function delete($id)
     {
-        $checklists = Checklists::find($id);
+        $checklists = ChecklistTemplate::find($id);
 
         $proses = $checklists->delete();
 
@@ -125,5 +112,4 @@ class ChecklistController extends Controller
             ], 400);
         }
     }
-
 }

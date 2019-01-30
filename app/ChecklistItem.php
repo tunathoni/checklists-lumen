@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Checklists extends Model implements AuthenticatableContract, AuthorizableContract
+class ChecklistItem extends Model  implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -17,12 +17,9 @@ class Checklists extends Model implements AuthenticatableContract, AuthorizableC
      *
      * @var array
      */
-    protected $casts = [
-        'items' => 'array'
-    ];
-
+    protected $table = 'checklist_item';
     protected $fillable = [
-        'object_domain', 'object_id', 'description', 'items', 'is_completed', 'completed_at', 'updated_by', 'due', 'urgency'
+        'checklist_id', 'description', 'is_completed', 'completed_at', 'due', 'urgency', 'updated_by'
     ];
 
     /**
@@ -30,5 +27,7 @@ class Checklists extends Model implements AuthenticatableContract, AuthorizableC
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = [
+        'checklist_id'
+    ];
 }
